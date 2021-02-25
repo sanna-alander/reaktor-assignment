@@ -1,0 +1,32 @@
+<%- include('./partials/header.ejs') %>
+<%- include('./partials/otherheader.ejs') %>
+<br>
+<div style="display:flex;justify-content:center;align-items:center;padding-left:50px;padding-right:50px;color:black;">
+    <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Manufacturer</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Availability</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+            <% gloves.forEach((glove) => { %>
+                <tr>
+                    <td><%= glove.type %></td> 
+                    <td><%= glove.name %></td> 
+                    <td><%= glove.id %></td>
+                    <td><%= glove.manufacturer %></td>
+                    <td><%= glove.color %></td> 
+                    <td><%= glove.price %></td> 
+                    <td><%= glove.availability %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+<%- include('./partials/footer.ejs') %>

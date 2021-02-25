@@ -1,0 +1,32 @@
+<%- include('./partials/header.ejs') %>
+<%- include('./partials/otherheader.ejs') %>
+<br>
+<div style="display:flex;justify-content:center;align-items:center;padding-left:50px;padding-right:50px;color:black;">
+    <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Manufacturer</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Availability</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+            <% masks.forEach((mask) => { %>
+                <tr>
+                    <td><%= mask.type %></td> 
+                    <td><%= mask.name %></td> 
+                    <td><%= mask.id %></td>
+                    <td><%= mask.manufacturer %></td>
+                    <td><%= mask.color %></td> 
+                    <td><%= mask.price %></td> 
+                    <td><%= mask.availability %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+<%- include('./partials/footer.ejs') %>
