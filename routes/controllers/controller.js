@@ -1,50 +1,63 @@
-const getAvailability = async(brand, id) => {
-    const api_url = 'https://bad-api-assignment.reaktor.com/v2/availability/'+brand;
-    var a = null;
-    const response1 = await fetch(api_url);
-    const data = await response1.json();
-    var count = 0;
-    
-    while (a == null && count < data.response.length) {
-        if (data.response[count].id == id) {
-            a = data.response[count].DATAPAYLOAD;
-        }
-        count++;  
+
+const manufacturers = [];
+const gloves = await fetch('https://bad-api-assignment.reaktor.com/v2/products/gloves');
+const gloves_data = await gloves.json();
+const masks = await fetch('https://bad-api-assignment.reaktor.com/v2/products/facemasks');
+const masks_data = await masks.json();
+const beanies = await fetch('https://bad-api-assignment.reaktor.com/v2/products/beanies');
+const beanies_data = await beanies.json();
+
+const all_data = gloves_data.concat(masks_data, beanies_data);
+for (const i of all_data) {
+    if (!manufacturers.includes(i.manufacturer)) {
+        manufacturers.push(i.manufacturer);
     }
-    
-    return a;
 }
 
-const getItems = async(items) => {
-    const api_url = 'https://bad-api-assignment.reaktor.com/v2/products/'+items;
+const availabilities = {};
+
+const getAvailability = async(brand) => {
+    const api_url = 'https://bad-api-assignment.reaktor.com/v2/availability/'+brand;
     const response1 = await fetch(api_url);
-    const data = await response1.json();
+    if (response1) {
+        const data = await response1.json();
 
-    const finalData = [];
+        availabilities[brand] = {};
+    
+        for (const j of data.response) {
+            if (j.DATAPAYLOAD) {
+                availabilities[brand][j.id] = j.DATAPAYLOAD.substring(50, j.DATAPAYLOAD.length-31);
+            }
+        }
+    }   
+}
 
-    /*for (const item of data) {
+for (const m in manufacturers) {
+    console.log(manufacturers[m]);
+    await getAvailability(manufacturers[m]);
+}
 
-        finalData.push({ 
-            name: item.DATAPAYLOAD, 
-            id: item.id,
-            type: item.DATAPAYLOAD,
-            color: item.DATAPAYLOAD,
-            price: item.DATAPAYLOAD, 
-            manufacturer: item.DATAPAYLOAD, 
-            availability: 'INSTOCK'
-        });
+const getItems = async(data) => {
 
-        item["availability"] = await getAvailability(item.manufacturer, item.id);
-    }*/
-    //console.log(data);
+    for (const item of data) {
+        const m_id = item.id.toUpperCase();
+        if (availabilities[item.manufacturer][m_id]) {
+            item["availability"] = availabilities[item.manufacturer][m_id];
+        } else {
+            item["availability"] = 'UNKNOWN'; 
+        }
+        
 
-    return await data;
+        console.log(item.availability);
+    }
+
+    return data;
 }
 
 const data = {
-    gloves: await getItems('gloves'),
-    masks: await getItems('facemasks'),
-    beanies: await getItems('beanies')
+    gloves: await getItems(gloves_data),
+    masks: await getItems(masks_data),
+    beanies: await getItems(beanies_data)
 };
 
 const showGloves = async({render}) => {
