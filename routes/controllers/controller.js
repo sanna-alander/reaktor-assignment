@@ -8,28 +8,11 @@ const getData = async(type) => {
     return data;
 }
 
-const gloves = new Promise(
-    (resolve) => resolve(getData('gloves'))
-);
-const masks = new Promise(
-    (resolve) => resolve(getData('facemasks'))
-);
-const beanies = new Promise(
-    (resolve) => resolve(getData('beanies'))
-);
+const gloves = await getData('gloves')
+const masks = await getData('facemasks')
+const beanies = await getData('beanies')
 
-const responses = await Promise.all([gloves, masks, beanies]);
-let all_data = [];
-let gloves_data = [];
-let masks_data = [];
-let beanies_data = [];
-
-for (const res of responses) {
-    all_data = all_data.concat(res);
-    if (res[0].type == 'gloves') {gloves_data = res}
-    else if (res[0].type == 'facemasks') {masks_data = res}
-    else if (res[0].type == 'beanies') {beanies_data = res}
-}
+let all_data = gloves.concat(masks, beanies);
 
 for (const i of all_data) {
     if (!manufacturers.includes(i.manufacturer)) {
@@ -81,9 +64,9 @@ const addAvailability = async(data) => {
 }
 
 const data = {
-    gloves: await addAvailability(gloves_data),
-    masks: await addAvailability(masks_data),
-    beanies: await addAvailability(beanies_data)
+    gloves: await addAvailability(gloves),
+    masks: await addAvailability(masks),
+    beanies: await addAvailability(beanies)
 };
 
 const showGloves = async({render}) => {
