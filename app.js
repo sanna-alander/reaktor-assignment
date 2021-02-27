@@ -23,5 +23,4 @@ if (!Deno.env.get('TEST_ENVIRONMENT')) {
   app.listen({ port: port });
 }
 
-//export default app;
 export { app }

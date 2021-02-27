@@ -19,23 +19,30 @@ const availabilities = {};
 const getAvailability = async(brand) => {
     const api_url = 'https://bad-api-assignment.reaktor.com/v2/availability/'+brand;
     const response1 = await fetch(api_url);
-    if (response1) {
+    //if (response1) {
         const data = await response1.json();
 
         availabilities[brand] = {};
-    
-        for (const j of data.response) {
-            if (j.DATAPAYLOAD) {
-                availabilities[brand][j.id] = j.DATAPAYLOAD.substring(50, j.DATAPAYLOAD.length-31);
+        if (data.response.length != 0) {
+            for (const j of data.response) {
+                if (j.DATAPAYLOAD) {
+                    availabilities[brand][j.id] = j.DATAPAYLOAD.substring(50, j.DATAPAYLOAD.length-31);
+                }
             }
         }
-    }   
+        
+    //}   
 }
+const promises = [];
 
 for (const m in manufacturers) {
-    console.log(manufacturers[m]);
-    await getAvailability(manufacturers[m]);
+    promises.push(
+        new Promise((resolve) => resolve(getAvailability(manufacturers[m])))
+    );
 }
+
+await Promise.all(promises);
+
 
 const getItems = async(data) => {
 
