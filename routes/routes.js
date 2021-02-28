@@ -6,7 +6,7 @@ const router = new Router();
 router.get('/', showBeanies);
 
 router.get('/gloves', showGloves)
-      .get('/masks', showMasks)
+      .get('/facemasks', showMasks)
       .get('/beanies', showBeanies);
 
 

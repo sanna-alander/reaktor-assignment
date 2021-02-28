@@ -29,7 +29,6 @@ const getAvailability = async(brand) => {
 
     availabilities[brand] = {};
     if (data.response.length > 2) {
-        console.log(data.response.length);
         for (const j of data.response) {
             if (j.DATAPAYLOAD) {
                 availabilities[brand][j.id] = j.DATAPAYLOAD.substring(50, j.DATAPAYLOAD.length-31);
@@ -57,9 +56,7 @@ const addAvailability = async(data) => {
         } else {
             item["availability"] = 'UNKNOWN'; 
         }
-
     }
-
     return data;
 }
 
