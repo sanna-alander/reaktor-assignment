@@ -1,7 +1,8 @@
 //jee jee!
 import { Application } from "./deps.js";
-import { router } from "./routes/routes.js";
+import { router } from "./routes.js";
 import { viewEngine, engineFactory, adapterFactory } from "./deps.js";
+import { middleware } from "./controller.js";
 
 const app = new Application();
 
@@ -10,6 +11,8 @@ const oakAdapter = adapterFactory.getOakAdapter();
 app.use(viewEngine(oakAdapter, ejsEngine, {
     viewRoot: "./views"
 }));
+
+app.use(middleware);
 
 app.use(router.routes());
 

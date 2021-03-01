@@ -15,15 +15,15 @@
           </tr>
         </thead>
         <tbody></tbody>
-            <% masks.forEach((mask) => { %>
+            <% items.forEach((item) => { %>
                 <tr>
-                    <td><%= mask.type %></td> 
-                    <td><%= mask.name %></td> 
-                    <td><%= mask.id %></td>
-                    <td><%= mask.manufacturer %></td>
-                    <td><%= mask.color %></td> 
-                    <td><%= mask.price %></td> 
-                    <td><%= mask.availability %></td>
+                    <td><%= item.type %></td> 
+                    <td><%= item.name %></td> 
+                    <td><%= item.id %></td>
+                    <td><%= item.manufacturer %></td>
+                    <td><%= item.color %></td> 
+                    <td><%= item.price %></td> 
+                    <td><%= item.availability %></td>
                 </tr>
             <% }); %>
         </tbody>

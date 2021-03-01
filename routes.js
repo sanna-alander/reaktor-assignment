@@ -1,9 +1,9 @@
-import { Router } from "../deps.js";
-import { showBeanies, showGloves, showMasks } from "./controllers/controller.js";
+import { Router } from "./deps.js";
+import { showBeanies, showGloves, showMasks, showLanding } from "./controller.js";
 
 const router = new Router();
 
-router.get('/', showBeanies);
+router.get('/', showLanding);
 
 router.get('/gloves', showGloves)
       .get('/facemasks', showMasks)
